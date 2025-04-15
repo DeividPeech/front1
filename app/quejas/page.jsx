@@ -71,7 +71,8 @@ export default function RegistroSolicitudPage() {
     }
 
     try {
-      const response = await axios.post('http://192.168.0.195:8000/api/solicitudes', {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/solicitudes`, {
+        
         ...form,
       });
 

@@ -20,7 +20,8 @@ export default function SeguimientoPage() {
     setResultado(null);
 
     try {
-      const res = await axios.get(`http://192.168.0.195:8000/api/solicitudes/${busqueda}`);
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/solicitudes/${busqueda}`);
+      
       setResultado(res.data);
     } catch (error) {
       if (error.response && error.response.status === 404) {
