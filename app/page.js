@@ -7,9 +7,19 @@ import { FeedbackOutlined, SearchOutlined } from '@mui/icons-material';
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 flex flex-col items-center p-6">
+      {/* Logotipo */}
+      <div className="w-full flex justify-center mb-6">
+        <img
+          src="https://satq.qroo.gob.mx/logos/LOGO-CONJUNTO-COMPACTO.png"
+          alt="Logotipo Quintana Roo"
+          className="h-16 md:h-20 object-contain"
+        />
+      </div>
+
+      {/* Título principal */}
       <Typography
         variant="h3"
-        className="text-center font-bold text-blue-900 mb-4"
+        className="text-center font-bold text-red-800 mb-4"
       >
         Portal de Atención Ciudadana
       </Typography>
@@ -20,10 +30,11 @@ export default function Home() {
         Bienvenido al sistema de quejas y sugerencias. Aquí puedes registrar una solicitud o dar seguimiento a una existente con tu folio.
       </Typography>
 
+      {/* Tarjetas */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl">
         <Card className="hover:shadow-lg transition duration-300 rounded-2xl">
           <CardContent className="flex flex-col items-center text-center">
-            <FeedbackOutlined fontSize="large" className="text-blue-600 mb-2" />
+            <FeedbackOutlined fontSize="large" className="text-red-800 mb-2" />
             <Typography variant="h6" className="font-semibold mb-2">
               Enviar Queja o Sugerencia
             </Typography>
@@ -40,7 +51,7 @@ export default function Home() {
 
         <Card className="hover:shadow-lg transition duration-300 rounded-2xl">
           <CardContent className="flex flex-col items-center text-center">
-            <SearchOutlined fontSize="large" className="text-green-600 mb-2" />
+            <SearchOutlined fontSize="large" className="text-red-800 mb-2" />
             <Typography variant="h6" className="font-semibold mb-2">
               Consultar Estado de Solicitud
             </Typography>

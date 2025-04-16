@@ -21,7 +21,6 @@ export default function SeguimientoPage() {
 
     try {
       const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/solicitudes/${busqueda}`);
-      
       setResultado(res.data);
     } catch (error) {
       if (error.response && error.response.status === 404) {
@@ -38,6 +37,15 @@ export default function SeguimientoPage() {
   return (
     <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
       <div className="bg-white shadow rounded-2xl p-6 w-full max-w-3xl">
+        {/* Logotipo */}
+        <div className="w-full flex justify-center mb-6">
+          <img
+            src="https://satq.qroo.gob.mx/logos/LOGO-CONJUNTO-COMPACTO.png" // Cambia esta ruta al path correcto del logotipo
+            alt="Logotipo Quintana Roo"
+            className="h-16 md:h-20 object-contain"
+          />
+        </div>
+
         <h1 className="text-2xl font-bold mb-4">Seguimiento de Solicitudes</h1>
 
         <div className="flex gap-2 mb-4">

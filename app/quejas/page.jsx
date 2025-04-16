@@ -72,7 +72,6 @@ export default function RegistroSolicitudPage() {
 
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/solicitudes`, {
-        
         ...form,
       });
 
@@ -105,6 +104,15 @@ export default function RegistroSolicitudPage() {
   return (
     <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
       <div className="bg-white rounded-2xl shadow p-8 w-full max-w-2xl">
+        {/* Logotipo */}
+        <div className="w-full flex justify-center mb-6">
+          <img
+            src="https://satq.qroo.gob.mx/logos/LOGO-CONJUNTO-COMPACTO.png" // Cambia esta ruta al path correcto del logotipo
+            alt="Logotipo Quintana Roo"
+            className="h-16 md:h-20 object-contain"
+          />
+        </div>
+
         <h1 className="text-2xl font-bold mb-6">Registrar Queja o Sugerencia</h1>
 
         {mensajeExito && (
