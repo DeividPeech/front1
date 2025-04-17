@@ -1,7 +1,21 @@
+// @/pages/registro-solicitud.js
 'use client';
 
 import React, { useState } from 'react';
 import axios from 'axios';
+import {
+  TextField,
+  Button,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  FormHelperText,
+  Typography,
+  Card,
+  CardContent,
+} from '@mui/material';
+import Nav from '@/components/Nav';
 
 export default function RegistroSolicitudPage() {
   const [form, setForm] = useState({
@@ -98,117 +112,127 @@ export default function RegistroSolicitudPage() {
     }
   };
 
-  const inputStyle = (campo) =>
-    `w-full border rounded px-3 py-2 ${errores[campo] ? 'border-red-500' : 'border-gray-300'}`;
-
   return (
-    <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
-      <div className="bg-white rounded-2xl shadow p-8 w-full max-w-2xl">
-        {/* Logotipo */}
-        <div className="w-full flex justify-center mb-6">
-          <img
-            src="https://satq.qroo.gob.mx/logos/LOGO-CONJUNTO-COMPACTO.png" // Cambia esta ruta al path correcto del logotipo
-            alt="Logotipo Quintana Roo"
-            className="h-16 md:h-20 object-contain"
-          />
-        </div>
+    <div className="min-h-screen bg-gray-50">
+      <Nav />
 
-        <h1 className="text-2xl font-bold mb-6">Registrar Queja o Sugerencia</h1>
+      <div className="flex justify-center pt-10">
+        <Card className="w-full max-w-2xl p-4">
+          <CardContent>
+            <Typography variant="h4" align="center" className="font-bold mb-16">
+              Registrar Queja o Sugerencia
+            </Typography>
 
-        {mensajeExito && (
-          <div className="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">{mensajeExito}</div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block font-semibold">Nombre completo *</label>
-              <input
-                name="nombre"
-                value={form.nombre}
-                onChange={handleChange}
-                className={inputStyle('nombre')}
-              />
-              {errores.nombre && <p className="text-red-500 text-sm mt-1">{errores.nombre}</p>}
-            </div>
-
-            <div>
-              <label className="block font-semibold">Correo electrónico *</label>
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                className={inputStyle('email')}
-              />
-              {errores.email && <p className="text-red-500 text-sm mt-1">{errores.email}</p>}
-            </div>
-
-            <div>
-              <label className="block font-semibold">Teléfono *</label>
-              <input
-                name="telefono"
-                value={form.telefono}
-                onChange={handleChange}
-                className={inputStyle('telefono')}
-                maxLength={10}
-              />
-              {errores.telefono && <p className="text-red-500 text-sm mt-1">{errores.telefono}</p>}
-            </div>
-
-            <div>
-              <label className="block font-semibold">Departamento *</label>
-              <select
-                name="departamento_id"
-                value={form.departamento_id}
-                onChange={handleChange}
-                className={inputStyle('departamento_id')}
-              >
-                <option value="">-- Selecciona --</option>
-                <option value="1">Atención al cliente</option>
-                <option value="2">Recursos Humanos</option>
-                <option value="3">Finanzas</option>
-              </select>
-              {errores.departamento_id && (
-                <p className="text-red-500 text-sm mt-1">{errores.departamento_id}</p>
-              )}
-            </div>
-          </div>
-
-          <div>
-            <label className="block font-semibold">Tipo *</label>
-            <select
-              name="tipo"
-              value={form.tipo}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            >
-              <option value="queja">Queja</option>
-              <option value="sugerencia">Sugerencia</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block font-semibold">Descripción *</label>
-            <textarea
-              name="descripcion"
-              value={form.descripcion}
-              onChange={handleChange}
-              rows={5}
-              className={inputStyle('descripcion')}
-            ></textarea>
-            {errores.descripcion && (
-              <p className="text-red-500 text-sm mt-1">{errores.descripcion}</p>
+            {mensajeExito && (
+              <div className="bg-green-100 text-green-800 px-4 py-2 rounded mb-8">
+                {mensajeExito}
+              </div>
             )}
-          </div>
 
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
-          >
-            Enviar solicitud
-          </button>
-        </form>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <TextField
+                    label="Nombre completo *"
+                    variant="outlined"
+                    name="nombre"
+                    value={form.nombre}
+                    onChange={handleChange}
+                    fullWidth
+                    error={!!errores.nombre}
+                    helperText={errores.nombre}
+                  />
+                </div>
+
+                <div>
+                  <TextField
+                    label="Correo electrónico *"
+                    variant="outlined"
+                    type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    fullWidth
+                    error={!!errores.email}
+                    helperText={errores.email}
+                  />
+                </div>
+
+                <div>
+                  <TextField
+                    label="Teléfono *"
+                    variant="outlined"
+                    name="telefono"
+                    value={form.telefono}
+                    onChange={handleChange}
+                    fullWidth
+                    inputProps={{ maxLength: 10 }}
+                    error={!!errores.telefono}
+                    helperText={errores.telefono}
+                  />
+                </div>
+
+                <div>
+                  <FormControl fullWidth error={!!errores.departamento_id}>
+                    <InputLabel>Departamento *</InputLabel>
+                    <Select
+                      name="departamento_id"
+                      value={form.departamento_id}
+                      onChange={handleChange}
+                      label="Departamento *"
+                    >
+                      <MenuItem value="1">Atención al cliente</MenuItem>
+                      <MenuItem value="2">Recursos Humanos</MenuItem>
+                      <MenuItem value="3">Finanzas</MenuItem>
+                    </Select>
+                    <FormHelperText>{errores.departamento_id}</FormHelperText>
+                  </FormControl>
+                </div>
+              </div>
+
+              <div>
+                <FormControl fullWidth error={!!errores.tipo}>
+                  <InputLabel>Tipo *</InputLabel>
+                  <Select
+                    name="tipo"
+                    value={form.tipo}
+                    onChange={handleChange}
+                    label="Tipo *"
+                  >
+                    <MenuItem value="queja">Queja</MenuItem>
+                    <MenuItem value="sugerencia">Sugerencia</MenuItem>
+                  </Select>
+                  <FormHelperText>{errores.tipo}</FormHelperText>
+                </FormControl>
+              </div>
+
+              <div>
+                <TextField
+                  label="Descripción *"
+                  variant="outlined"
+                  name="descripcion"
+                  value={form.descripcion}
+                  onChange={handleChange}
+                  fullWidth
+                  multiline
+                  rows={5}
+                  error={!!errores.descripcion}
+                  helperText={errores.descripcion}
+                />
+              </div>
+
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                className="mt-4"
+              >
+                Enviar solicitud
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

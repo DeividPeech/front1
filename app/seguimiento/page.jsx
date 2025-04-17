@@ -2,6 +2,22 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
+import {
+  Button,
+  TextField,
+  CircularProgress,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  Paper,
+  Card,
+  CardContent,
+} from '@mui/material';
+import Nav from '@/components/Nav';
 
 export default function SeguimientoPage() {
   const [busqueda, setBusqueda] = useState('');
@@ -11,7 +27,7 @@ export default function SeguimientoPage() {
 
   const handleBuscar = async () => {
     if (!busqueda.trim()) {
-      alert('Por favor ingresa un folio.');
+      setMensaje('Por favor ingresa un folio.');
       return;
     }
 
@@ -34,67 +50,81 @@ export default function SeguimientoPage() {
     }
   };
 
+  const formatearFecha = (fechaString) => {
+    try {
+      const fecha = new Date(fechaString);
+      return fecha.toISOString().split('T')[0]; // yyyy-mm-dd
+    } catch {
+      return 'Fecha inválida';
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
-      <div className="bg-white shadow rounded-2xl p-6 w-full max-w-3xl">
-        {/* Logotipo */}
-        <div className="w-full flex justify-center mb-6">
-          <img
-            src="https://satq.qroo.gob.mx/logos/LOGO-CONJUNTO-COMPACTO.png" // Cambia esta ruta al path correcto del logotipo
-            alt="Logotipo Quintana Roo"
-            className="h-16 md:h-20 object-contain"
-          />
-        </div>
+    <div className="min-h-screen bg-gray-50">
+      <Nav />
 
-        <h1 className="text-2xl font-bold mb-4">Seguimiento de Solicitudes</h1>
+      <div className="flex justify-center pt-10 px-4">
+        <Card className="w-full max-w-2xl">
+          <CardContent>
+            <Typography variant="h4" align="center" gutterBottom>
+              Seguimiento de Solicitudes
+            </Typography>
 
-        <div className="flex gap-2 mb-4">
-          <input
-            type="text"
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-            placeholder="Ingresa tu folio"
-            className="flex-1 border border-gray-300 rounded px-3 py-2"
-          />
-          <button
-            onClick={handleBuscar}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            Buscar
-          </button>
-        </div>
+            <div className="flex gap-2 mb-4 items-start">
+              <TextField
+                label="Ingresa tu folio"
+                variant="outlined"
+                fullWidth
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+                error={!!mensaje}
+                helperText={mensaje}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleBuscar}
+                className="h-full mt-[6px]"
+              >
+                Buscar
+              </Button>
+            </div>
 
-        {loading && <p className="text-gray-600">Buscando...</p>}
-        {mensaje && <p className="text-red-500">{mensaje}</p>}
+            {loading && (
+              <div className="flex items-center gap-2 text-gray-600 mb-4">
+                <CircularProgress size={20} />
+                <span>Buscando...</span>
+              </div>
+            )}
 
-        {resultado && (
-          <div className="mt-6 border border-gray-200 rounded-lg overflow-hidden">
-            <table className="min-w-full text-sm">
-              <thead className="bg-gray-100 text-left">
-                <tr>
-                  <th className="px-4 py-2 border">Folio</th>
-                  <th className="px-4 py-2 border">Nombre del creador</th>
-                  <th className="px-4 py-2 border">Tipo</th>
-                  <th className="px-4 py-2 border">Departamento</th>
-                  <th className="px-4 py-2 border">Estado</th>
-                  <th className="px-4 py-2 border">Fecha</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-4 py-2 border">{resultado.folio}</td>
-                  <td className="px-4 py-2 border">{resultado.creador.nombre}</td>
-                  <td className="px-4 py-2 border">{resultado.tipo}</td>
-                  <td className="px-4 py-2 border">{resultado.departamento.nombre}</td>
-                  <td className="px-4 py-2 border">{resultado.estado}</td>
-                  <td className="px-4 py-2 border">
-                    {new Date(resultado.created_at).toLocaleDateString()}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )}
+            {resultado && (
+              <TableContainer component={Paper} className="mt-6">
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Folio</TableCell>
+                      <TableCell>Nombre del creador</TableCell>
+                      <TableCell>Tipo</TableCell>
+                      <TableCell>Departamento</TableCell>
+                      <TableCell>Estado</TableCell>
+                      <TableCell>Fecha</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow hover>
+                      <TableCell>{resultado.folio}</TableCell>
+                      <TableCell>{resultado.creador?.nombre || 'N/A'}</TableCell>
+                      <TableCell>{resultado.tipo}</TableCell>
+                      <TableCell>{resultado.departamento?.nombre || 'N/A'}</TableCell>
+                      <TableCell>{resultado.estado}</TableCell>
+                      <TableCell>{formatearFecha(resultado.created_at)}</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
